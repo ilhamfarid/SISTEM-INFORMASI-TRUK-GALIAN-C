@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truck Route Viewer</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-GJ6FSF05lvfkjr/Q26HRgHrpTigQ3S0V7gLFVbNkUXjzmkVZOmEj62R2ElQeNzNA" crossorigin="" />
+    <style>
+        #map {
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-OhtG/oeSHffDFcx9Z9enxt0nnRzE56eaf6N5H/HBwiYz65UaItCcRa5mG6PHd2Fy" crossorigin=""></script>
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([-7.705, 110.607], 12);
+
+        // Add a tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Load GeoJSON file
+        fetch('klaten_routes_purple.geojson') // Replace with actual file path or URL
+            .then(response => response.json())
+            .then(data => {
+                L.geoJSON(data, {
+                    style: {
+                        color: 'purple',
+                        weight: 4
+                    }
+                }).addTo(map);
+            })
+            .catch(error => console.error('Error loading GeoJSON:', error));
+    </script>
+</body>
+</html>
